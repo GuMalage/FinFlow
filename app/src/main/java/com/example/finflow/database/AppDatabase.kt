@@ -8,7 +8,7 @@ import com.example.finflow.dao.AppDao
 import com.example.finflow.model.Registro
 
 
-@Database(entities = [Registro::class], version = 2, exportSchema = false)
+@Database(entities = [Registro::class], version = 3, exportSchema = false)
 abstract class AppDatabase : RoomDatabase() {
 
     abstract fun appDao(): AppDao
@@ -22,7 +22,7 @@ abstract class AppDatabase : RoomDatabase() {
                 val instance = Room.databaseBuilder(
                     context.applicationContext,
                     AppDatabase::class.java,
-                    "finflow_db"
+                    "finflow"
                 ).build()
                 INSTANCE = instance
                 instance

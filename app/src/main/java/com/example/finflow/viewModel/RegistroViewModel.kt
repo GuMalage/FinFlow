@@ -28,11 +28,9 @@ class RegistroViewModel(application: Application) : AndroidViewModel(application
     var ehCredito by mutableStateOf(true)
         private set
 
-
     fun onValorChange(novoValor: String) {
         valor = novoValor
     }
-
 
     fun onObservacaoChange(novaObservacao: String) {
         observacao = novaObservacao
@@ -46,33 +44,18 @@ class RegistroViewModel(application: Application) : AndroidViewModel(application
         ehCredito = novoEhCredito
     }
 
+    var mensagemErro by mutableStateOf<String?>(null)
+        private set
+
     fun limparTela() {
         valor = ""
         observacao = ""
         data = ""
-        ehCredito = true
     }
 
-    fun salvarRegistro(onSucesso: () -> Unit) {
-        if (valor.isBlank() || data.isBlank()) return
-
-        val valorNumerico = valor.replace(",", ".").toDoubleOrNull() ?: 0.0
-
-        val novoRegistro = Registro(
-            valor = valorNumerico,
-            ehCredito = ehCredito,
-            data = System.currentTimeMillis(),
-            observacao = observacao
-        )
-
-        viewModelScope.launch {
-            appDao.salvar(novoRegistro)
-
-            limparTela()
-            onSucesso()
-        }
+    fun limparErro() {
+        mensagemErro = null
     }
-
     val listaRegistros = appDao.listarTodas()
         .stateIn(
             scope = viewModelScope,
@@ -81,6 +64,31 @@ class RegistroViewModel(application: Application) : AndroidViewModel(application
         )
 
     val registros  = listaRegistros
+
+
+    fun salvarRegistro(onSucesso: () -> Unit) {
+        if (valor.isBlank() || data.isBlank()) {
+            mensagemErro = "Por favor, preencha o valor e a data!"
+            return
+        }
+
+        val dataEmMilissegundos = java.text.SimpleDateFormat("dd/MM/yyyy", java.util.Locale.getDefault()).apply { timeZone = java.util.TimeZone.getTimeZone("UTC") }.parse(data)?.time ?: System.currentTimeMillis()
+
+        val valorNumerico = valor.replace(",", ".").toDoubleOrNull() ?: 0.0
+
+        val novoRegistro = Registro(
+            valor = valorNumerico,
+            ehCredito = ehCredito,
+            data = dataEmMilissegundos,
+            observacao = observacao
+        )
+
+        viewModelScope.launch {
+            appDao.salvar(novoRegistro)
+            limparTela()
+            onSucesso()
+        }
+    }
 
     fun calcularTotalCreditos(registros: List<Registro>): Double {
         return registros

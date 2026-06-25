@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name">FinFlow</string>
+    <string name="novo_lancamento">New Transaction</string>
+    <string name="valor_do_lancamento">Transaction amount</string>
+    <string name="observacoes_adicionais">Additional notes</string>
+    <string name="data_da_transacao">Transaction date</string>
+    <string name="cancelar">Cancel</string>
+    <string name="ok">OK</string>
+    <string name="confirmar_lancamento">Confirm Transaction</string>
+    <string name="limpar_campos">Clear Fields</string>
+    <string name="acessar_extrato_completo">View Full Statement</string>
+    <string name="extrato">Statement</string>
+    <string name="voltar">Back</string>
+    <string name="creditos">INCOME</string>
+    <string name="credito_selecionado">● INCOME</string>
+    <string name="credito">INCOME</string>
+    <string name="debitos">EXPENSES</string>
+    <string name="debitos_selecionado">● EXPENSES</string>
+    <string name="debito">EXPENSES</string>
+    <string name="sem_descricao">No description</string>
+    <string name="opcional">Optional</string>
+    <string name="formatacao_campo_valor">%1$s</string>
+</resources>
